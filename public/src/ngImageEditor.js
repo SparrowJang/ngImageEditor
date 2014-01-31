@@ -116,7 +116,7 @@
         width = img.width;
         height = img.height;
 
-        div.remove();
+        div.parentNode.removeChild( div );
 
         deferred.resolve({width:width,height:height});
       };
@@ -226,7 +226,7 @@
     return {
       require:'^ngImageEditor',
       selected:'=',
-      template:'<div style="border:2px dashed #eaeaea;cursor:pointer;position:absolute;" ng-style="{width:selected.width + \'px\' , height:selected.height + \'px\',left:selected.left + \'px\',top:selected.top + \'px\'}" ng-mousedown="dragEvent=$event;$event.preventDefault()"></div>',
+      template:'<div style="background:rgba(255, 255, 255, 0.1);border:2px dashed #eaeaea;cursor:pointer;position:absolute;" ng-style="{width:selected.width + \'px\' , height:selected.height + \'px\',left:selected.left + \'px\',top:selected.top + \'px\'}" ng-mousedown="dragEvent=$event;$event.preventDefault()"></div>',
       replace:true,
       link:function( scope, $element, attrs ){
 
