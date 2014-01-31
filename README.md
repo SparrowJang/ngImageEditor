@@ -1,6 +1,8 @@
 ngImageEditor
 =============
 
+![demo image](http://sparrowhome.twbbs.org/images/article/capture-a-image-block-on-angular/screenprint.png)
+
 This is a image editor for angular.It can cut image.
 
 ##Dependency
