@@ -1,0 +1,55 @@
+
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<style type="text/css">
+		.ng-image-editor {
+			width:200px;
+			height:200px;
+		}
+        .ng-image-editor {
+			float:left;
+		}
+		.offset-1 {
+			margin-left:10px;
+		}
+		.clear {
+			width:0px;
+			height:0px;
+			clear:both;
+		}
+	</style>
+</head>
+<body ng-app="ngImageEditor" ng-controller="testCtrl">
+
+
+	<div class="ng-image-editor" selected="selected" img-src="imgSrc" ng-image-editor="imageEditor" ng-init="imgSrc='/images/head.jpeg'; selected = {width:150,height:150,top:0,left:0};" ></div>
+<img class="offset-1" ng-src="{{selectedBlock}}" alt="" />
+<div class="clear"></div>
+<br />
+
+<button type="button" ng-click="capture()" ng-disabled="!enabled">capture</button>
+
+	<script type="text/javascript" src="/bower_components/angular/angular.min.js"></script>
+    <script type="text/javascript" src="src/ngImageEditor.js"></script>
+	<script type="text/javascript">
+		function testCtrl( $scope ){
+
+			var clear = $scope.$watch( 'imageEditor', function(){
+
+              clear();
+              $scope.enabled = true;
+            });
+
+            $scope.capture = function(){
+
+				$scope.selectedBlock = $scope.imageEditor.toDataURL();
+			};
+
+		}
+	</script>
+</body>
+</html>
+

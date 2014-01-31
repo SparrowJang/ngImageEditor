@@ -1,0 +1,22 @@
+{
+  "name": "ngImageEditor",
+  "version": "0.0.1",
+  "description": "This is a image editor for angular.It can cut image.",
+  "main": "public/src/ngImageEditor",
+  "keywords": [
+    "image",
+    "head",
+    "editor",
+    "capture"
+  ],
+  "devDependencies":{
+    "grunt": "~0.4.1",
+    "grunt-open": "~0.2.0",
+    "express":"~3.2.2",
+    "grunt-contrib-uglify": "~0.2.4",
+    "grunt-express":"~1.2.1",
+    "matchdep": "~0.1.2"
+  },
+  "author": "sparrow.jang",
+  "license": "MIT"
+}

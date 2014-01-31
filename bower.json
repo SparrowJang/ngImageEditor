@@ -1,0 +1,26 @@
+{
+  "name": "ngImageEditor",
+  "version": "0.0.1",
+  "authors": [
+    "SparrowJang <sparrow.jang@gmail.com>"
+  ],
+  "description": "This is a image editor for angular.It can cut image.",
+  "main": "public/src/ngImageEditor.js",
+  "keywords": [
+    "image",
+    "head",
+    "editor",
+    "capture"
+  ],
+  "dependencies":{
+    "angular": "~1.2.8"
+  },
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
