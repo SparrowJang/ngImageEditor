@@ -25,7 +25,7 @@
 <body ng-app="ngImageEditor" ng-controller="testCtrl">
 
 
-	<div class="ng-image-editor" selected="selected" img-src="imgSrc" ng-image-editor="imageEditor" ng-init="imgSrc='/images/head.jpeg'; selected = {width:150,height:150,top:0,left:0};" ></div>
+	<div on-img-change="onImageChange()" class="ng-image-editor" selected="selected" img-src="imgSrc" ng-image-editor="imageEditor" ng-init="imgSrc='/images/head.jpeg'; selected = {width:150,height:150,top:0,left:0};" ></div>
 <img class="offset-1" ng-src="{{selectedBlock}}" alt="" />
 <div class="clear"></div>
 <br />
@@ -48,6 +48,7 @@
 				$scope.selectedBlock = $scope.imageEditor.toDataURL();
 			};
 
+			$scope.onImageChange = function(){console.log( 'img change' );}
 		}
 	</script>
 </body>

@@ -46,6 +46,11 @@ Get a image data of selected block.
 $scope.imageEditor.toDataURL();
 ```
 
+##Event
+
+###on-image-change `Event`
+>>The image is loaded and rendered.
+
 ##Demo
  
 Clone this project.

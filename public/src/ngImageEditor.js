@@ -134,6 +134,7 @@
       scope:{
         imgSrc:"=",
         ngImageEditor:"=",
+        onImgChange:"&",
         selected:"="
       },
 
@@ -164,6 +165,7 @@
             imgSize = size;
             overlay.refresh();
             overlay.render( img, $scope.selected, imgSize );
+            $scope.onImgChange();
             //console.log( overlay.toDataURL( "image/png" , $scope.selected ) );
           });
         });
