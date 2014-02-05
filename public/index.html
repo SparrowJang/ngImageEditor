@@ -37,10 +37,14 @@
 	<script type="text/javascript">
 		function testCtrl( $scope ){
 
-			var clear = $scope.$watch( 'imageEditor', function(){
+			var clear = $scope.$watch( 'imageEditor', function( imageEditor ){
 
-              clear();
-              $scope.enabled = true;
+              //console.log( $scope.imageEditor );
+              //window.imageEditor = $scope.imageEditor;
+              if ( imageEditor ) {
+                clear();
+                $scope.enabled = true;
+              }
             });
 
             $scope.capture = function(){

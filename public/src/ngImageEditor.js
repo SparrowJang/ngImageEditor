@@ -80,6 +80,12 @@
 
     },
 
+    refreshAndRender:function( img, selected, imageSize ){
+
+       this.refresh();
+       this.render( img, selected, imageSize );
+    },
+
     toDataURL:function( type, selected ){
 
       var canvas = this.canvas_,
@@ -212,6 +218,10 @@
 
               return overlay.toDataURL( imageType , $scope.selected );
 
+            },
+
+            refresh:function(){
+              overlay.refreshAndRender( img, $scope.selected, imgSize );
             }
           }
         });
