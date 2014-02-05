@@ -145,7 +145,7 @@
                '</div>',
       controller:[ '$scope', '$element', '$attrs', function( $scope, $element, $attrs ){
 
-        var canvas, $canvas, overlay, img, imgSize, SELECTED_BORDER_WIDTH = 2;
+        var canvas, $canvas, overlay, img, imgSize;
 
         $element.css({
           'position': 'relative',
@@ -177,8 +177,8 @@
 
             var dragEvent = $scope.dragEvent,
                 selected = $scope.selected,
-                maxY = $element[0].clientHeight - selected.height - SELECTED_BORDER_WIDTH,
-                maxX = $element[0].clientWidth - selected.width - SELECTED_BORDER_WIDTH,
+                maxY = $element[0].clientHeight - selected.height,
+                maxX = $element[0].clientWidth - selected.width,
                 top, left;
 
             if ( dragEvent ) {
@@ -187,9 +187,9 @@
               top = selected.top - ( dragEvent.clientY -  $event.clientY );
               left = selected.left - ( dragEvent.clientX - $event.clientX );
 
-              selected.top = top < -SELECTED_BORDER_WIDTH ? -SELECTED_BORDER_WIDTH :
+              selected.top = top < 0 ? 0 :
                              top > maxY ? maxY : top;
-              selected.left = left < -SELECTED_BORDER_WIDTH ? -SELECTED_BORDER_WIDTH :
+              selected.left = left < 0 ? 0 :
                               left > maxX ? maxX : left;
 
               overlay.refresh();
@@ -228,7 +228,7 @@
     return {
       require:'^ngImageEditor',
       selected:'=',
-      template:'<div style="background:rgba(255, 255, 255, 0.1);border:2px dashed #eaeaea;cursor:pointer;position:absolute;" ng-style="{width:selected.width + \'px\' , height:selected.height + \'px\',left:selected.left + \'px\',top:selected.top + \'px\'}" ng-mousedown="dragEvent=$event;$event.preventDefault()"></div>',
+      template:'<div style="box-sizing:border-box;background:rgba(255, 255, 255, 0.1);border:2px dashed #eaeaea;cursor:pointer;position:absolute;" ng-style="{width:selected.width + \'px\' , height:selected.height + \'px\',left:selected.left + \'px\',top:selected.top + \'px\'}" ng-mousedown="dragEvent=$event;$event.preventDefault()"></div>',
       replace:true,
       link:function( scope, $element, attrs ){
 
