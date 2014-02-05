@@ -169,8 +169,7 @@
 
           promise.then(function( size ){
             imgSize = size;
-            overlay.refresh();
-            overlay.render( img, $scope.selected, imgSize );
+            overlay.refreshAndRender( img, $scope.selected, imgSize );
             $scope.onImgChange();
             //console.log( overlay.toDataURL( "image/png" , $scope.selected ) );
           });
@@ -198,8 +197,7 @@
               selected.left = left < 0 ? 0 :
                               left > maxX ? maxX : left;
 
-              overlay.refresh();
-              overlay.render( img, selected, imgSize );
+              overlay.refreshAndRender( img, $scope.selected, imgSize );
 
               $scope.dragEvent = $event;
 
@@ -221,6 +219,7 @@
             },
 
             refresh:function(){
+
               overlay.refreshAndRender( img, $scope.selected, imgSize );
             }
           }
