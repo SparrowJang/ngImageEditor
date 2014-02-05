@@ -46,6 +46,14 @@ Get a image data of selected block.
 $scope.imageEditor.toDataURL();
 ```
 
+##Method
+
+###refresh
+>resize and render canvas
+
+###toDataURL
+>output a base64 string
+
 ##Event
 
 ###on-image-change `Event`
