@@ -9,6 +9,9 @@ This is a image editor for angular.It can cut image.
 
 * angularjs
 
+##Demo
+
+[demo](http://sparrowhome.twbbs.org/example/bower_components/ngImageEditor/public/index.html)
 
 ##Install
 
