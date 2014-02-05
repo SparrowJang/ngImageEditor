@@ -163,17 +163,29 @@
         overlay = new Overlay( canvas );
         img = $element.find( 'img' )[0];
 
-        $scope.$watch( 'imgSrc', function( src ){
+        var watcher = {
 
-          var promise = getImageSize( src );
+          imgSrc:function( src ){
 
-          promise.then(function( size ){
-            imgSize = size;
-            overlay.refreshAndRender( img, $scope.selected, imgSize );
-            $scope.onImgChange();
-            //console.log( overlay.toDataURL( "image/png" , $scope.selected ) );
-          });
-        });
+            var promise = getImageSize( src );
+
+            promise.then(function( size ){
+              imgSize = size;
+              overlay.refreshAndRender( img, $scope.selected, imgSize );
+              $scope.onImgChange();
+              //console.log( overlay.toDataURL( "image/png" , $scope.selected ) );
+            });
+
+          },
+          selected:function( selected ){
+
+            //
+            if ( $scope.dragEvent == null && imgSize ) overlay.refreshAndRender( img, selected, imgSize );
+          }
+        };
+
+        $scope.$watch( 'imgSrc', watcher.imgSrc);
+        $scope.$watchCollection( 'selected', watcher.selected);
 
 
         angular.extend( $scope, {
