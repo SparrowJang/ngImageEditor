@@ -151,7 +151,7 @@
                '</div>',
       controller:[ '$scope', '$element', '$attrs', function( $scope, $element, $attrs ){
 
-        var canvas, $canvas, overlay, img, imgSize;
+        var canvas, $canvas, overlay, img, imgSize, $body;
 
         $element.css({
           'position': 'relative',
@@ -162,6 +162,7 @@
         canvas = $canvas[0];
         overlay = new Overlay( canvas );
         img = $element.find( 'img' )[0];
+        $body = angular.element( document.body );
 
         var watcher = {
 
@@ -237,6 +238,10 @@
           }
         });
 
+        $body.on( "mouseup", function(){
+
+          $scope.cancel();
+        });
 
       }]
     };
