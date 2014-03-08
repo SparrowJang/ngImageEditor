@@ -162,6 +162,7 @@
         canvas = $canvas[0];
         overlay = new Overlay( canvas );
         img = $element.find( 'img' )[0];
+        img.crossOrigin = "Anonymous";
         $body = angular.element( document.body );
 
         var watcher = {
