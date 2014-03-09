@@ -30,22 +30,26 @@ The input image is not cross domain.It is browser limit.
 ##Usage
 
 Set some attrs of element.
-```
+
+```html
 <div img-src="imgSrc" ng-image-editor="imageEditor" selected="selected"></div>
 ```
 
 Load a image for cut.
-```
+
+```js
 $scope.imgSrc='/images/head.jpeg';
 ```
 
 Set a selected block size.
-```
+
+```js
 $scope.selected = {width:150,height:150,top:0,left:0};
 ```
 
 Get a image data of selected block.
-```
+
+```js
 $scope.imageEditor.toDataURL();
 ```
 
@@ -66,7 +70,7 @@ $scope.imageEditor.toDataURL();
  
 Clone this project.
  
-```
+```bash
 git clone https://github.com/SparrowJang/ngImageEditor
  
 cd ngImageEditor
