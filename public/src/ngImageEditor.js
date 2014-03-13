@@ -113,6 +113,8 @@
           deferred = $q.defer(),
           $body = angular.element( document.body );
 
+      img.crossOrigin = "Anonymous";
+
       div.style.cssText = "width:0px;height:0px;overflow:hidden;";
 
       img.onload = function(){
@@ -145,7 +147,7 @@
       },
 
       template:'<div ng-mousemove="move( $event )" ng-mouseup="cancel( $event )" unselectable="on">' +
-                 '<img unselectable="on" style="opacity:0;user-drag: none;width:100%;height:100%;" ng-src="{{imgSrc}}" ng-mousedown="$event.preventDefault()" />' +
+                 '<img unselectable="on" style="opacity:0;user-drag: none;width:100%;height:100%;" crossorigin="Anonymous" ng-src="{{imgSrc}}" ng-mousedown="$event.preventDefault()" />' +
                  '<canvas width="100%" height="100%" style="position:absolute;top:0px;left:0px;"></canvas>' +
                  '<div ng-image-selected></div>' +
                '</div>',
@@ -162,7 +164,7 @@
         canvas = $canvas[0];
         overlay = new Overlay( canvas );
         img = $element.find( 'img' )[0];
-        img.crossOrigin = "Anonymous";
+        //img.crossOrigin = "Anonymous";
         $body = angular.element( document.body );
 
         var watcher = {
@@ -255,7 +257,7 @@
     return {
       require:'^ngImageEditor',
       selected:'=',
-      template:'<div style="box-sizing:border-box;background:rgba(255, 255, 255, 0.1);border:2px dashed #eaeaea;cursor:pointer;position:absolute;" ng-style="{width:selected.width + \'px\' , height:selected.height + \'px\',left:selected.left + \'px\',top:selected.top + \'px\'}" ng-mousedown="dragEvent=$event;$event.preventDefault()"></div>',
+      template:'<div style="box-sizing:border-box;background:rgba(255, 255, 255, 0.1);border:2px dashed #eaeaea;cursor:all-scroll;position:absolute;" ng-style="{width:selected.width + \'px\' , height:selected.height + \'px\',left:selected.left + \'px\',top:selected.top + \'px\'}" ng-mousedown="dragEvent=$event;$event.preventDefault()"></div>',
       replace:true,
       link:function( scope, $element, attrs ){
 
