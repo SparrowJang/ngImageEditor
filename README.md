@@ -72,7 +72,7 @@ $scope.imageEditor.toDataURL();
 ###on-image-change `Event`
 >The image is loaded and rendered.
 
-##Demo
+##Run
  
 Clone this project.
  
