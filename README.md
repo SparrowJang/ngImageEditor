@@ -27,6 +27,12 @@ bower install ngImageEditor
 
 The input image is not cross domain.It is browser limit.
 
+You can add this header to your server to resolve cross domain.
+
+```
+Access-Control-Allow-Origin: http://your.domain.com
+```
+
 ##Usage
 
 Set some attrs of element.
