@@ -70,7 +70,7 @@ $scope.imageEditor.toDataURL();
 >Set a resize selector to be enable.
 
 Create a attribute to tag.
-````html
+```html
 enable-resize-selector="enableResizeSelector"
 ```
 
