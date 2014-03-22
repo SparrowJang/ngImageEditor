@@ -62,7 +62,28 @@ $scope.imageEditor.toDataURL();
 ##Method
 
 ###refresh
->resize and render canvas
+>Resize and render canvas
+
+##Parameter
+
+###enableResizeSelector
+>Set a resize selector to be enable.
+
+Create a attribute to tag.
+````html
+enable-resize-selector="enableResizeSelector"
+```
+
+The enable is true by set.
+```js
+$scope.enableResizeSelector = true;
+```
+
+###imgSrc
+>Set a editor image.
+
+###Selected
+>Set top、left、width and height for selector.
 
 ###toDataURL
 >output a base64 string

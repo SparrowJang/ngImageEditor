@@ -25,7 +25,7 @@
 <body ng-app="ngImageEditor" ng-controller="testCtrl">
 
 
-	<div on-img-change="onImageChange()" class="ng-image-editor" selected="selected" img-src="imgSrc" ng-image-editor="imageEditor" ng-init="imgSrc='/images/head.jpeg'; selected = {width:150,height:150,top:0,left:0};" ></div>
+	<div on-img-change="onImageChange()" class="ng-image-editor" selected="selected" img-src="imgSrc" ng-image-editor="imageEditor" ng-init="imgSrc='/images/head.jpeg'; selected = {width:150,height:150,top:0,left:0};" enable-resize-selector = "enableResizeSelector" ></div>
 <img class="offset-1" ng-src="{{selectedBlock}}" alt="" />
 <div class="clear"></div>
 <br />
@@ -45,6 +45,8 @@ height:<input type="number" ng-model="selected.height" />
     <script type="text/javascript" src="src/ngImageEditor.js"></script>
 	<script type="text/javascript">
 		function testCtrl( $scope ){
+
+            $scope.enableResizeSelector = true;
 
 			var clear = $scope.$watch( 'imageEditor', function( imageEditor ){
 
