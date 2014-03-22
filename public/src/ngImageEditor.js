@@ -197,6 +197,7 @@
           move : function( $event ){
 
             var dragEvent = $scope.dragEvent,
+                resizeStartEvent = $scope.resizeStartEvent,
                 selected = $scope.selected,
                 maxY = $element[0].clientHeight - selected.height,
                 maxX = $element[0].clientWidth - selected.width,
@@ -217,11 +218,103 @@
 
               $scope.dragEvent = $event;
 
+            } else if ( resizeStartEvent ) {
+
+              this.onResizeSelected( $event );
             }
+          },
+
+          onResizeSelected:function( $event ){
+
+              var resizeStartEvent = $scope.resizeStartEvent,
+                  y = resizeStartEvent.clientY - $event.clientY,
+                  x = resizeStartEvent.clientX - $event.clientX,
+                  resizeDirection = $scope.resizeDirection,
+                  selected = $scope.selected,
+                  lastTop, lastLeft, lastHeight, lastWidth;
+
+              switch ( resizeDirection ) {
+
+                case "nw":
+                  lastTop = selected.top - y;
+                  lastLeft = selected.left - x;
+                  lastWidth = selected.width + x;
+                  lastHeight = selected.height + y;
+                  break;
+
+                case "ne":
+                  lastTop = selected.top - y;
+                  lastLeft = selected.left;
+                  lastWidth = selected.width - x;
+                  lastHeight = selected.height + y;
+                  break;
+
+                case "sw":
+                  lastTop = selected.top;
+                  lastLeft = selected.left - x;
+                  lastHeight = selected.height - y;
+                  lastWidth = selected.width + x;
+                  break;
+
+                case "se":
+                  lastTop = selected.top;
+                  lastLeft = selected.left;
+                  lastWidth = selected.width - x;
+                  lastHeight = selected.height - y;
+                  break;
+
+                case "tr":
+                  lastTop = selected.top - y;
+                  lastHeight = selected.height + y;
+                  lastLeft = selected.left;
+                  lastWidth = selected.width;
+                  break;
+
+                case "br":
+                  lastTop = selected.top;
+                  lastHeight = selected.height - y;
+                  lastLeft = selected.left;
+                  lastWidth = selected.width;
+                  break;
+
+                case "lc":
+                  lastTop = selected.top;
+                  lastHeight = selected.height;
+                  lastLeft = selected.left - x;
+                  lastWidth = selected.width + x;
+                  break;
+
+                case "rc":
+                  lastTop = selected.top;
+                  lastHeight = selected.height;
+                  lastLeft = selected.left;
+                  lastWidth = selected.width - x;
+                  break;
+
+              }
+
+              this.resizeSelected( lastTop, lastLeft, lastWidth, lastHeight );
+              $scope.resizeStartEvent = $event;
+
+          },
+
+          resizeSelected:function( top, left, width, height ){
+            
+           var  selected = $scope.selected,
+                maxY = $element[0].clientHeight - selected.top,
+                maxX = $element[0].clientWidth - selected.left;
+
+            selected.top = top > 0 ? 
+                           ( top < selected.top + selected.height ? top : selected.top )  : 0;
+            selected.left = left > 0 ?
+                           ( left < selected.left + selected.width ? left : selected.left ): 0;
+            selected.width = width <= maxX? ( width < 0 ? 0 : width ):maxX;
+            selected.height = height <= maxY ? ( height < 0 ? 0: height ):maxY;
           },
 
           cancel :function(){
             $scope.dragEvent = null;
+            $scope.resizeStartEvent = null;
           },
 
           ngImageEditor:{
@@ -257,10 +350,32 @@
     return {
       require:'^ngImageEditor',
       selected:'=',
-      template:'<div style="box-sizing:border-box;background:rgba(255, 255, 255, 0.1);border:2px dashed #eaeaea;cursor:all-scroll;position:absolute;" ng-style="{width:selected.width + \'px\' , height:selected.height + \'px\',left:selected.left + \'px\',top:selected.top + \'px\'}" ng-mousedown="dragEvent=$event;$event.preventDefault()"></div>',
+      template:'<div style="box-sizing:border-box;background:rgba(255, 255, 255, 0.1);border:2px dashed #eaeaea;cursor:all-scroll;position:absolute;" ng-style="{width:selected.width + \'px\' , height:selected.height + \'px\',left:selected.left + \'px\',top:selected.top + \'px\'}" ng-mousedown="dragEvent=$event;$event.preventDefault()">' +
+                  '<div ng-mousedown="onResizeBlock( $event, \'nw\' )" style="width: 8px;height: 8px;background: rgba(151, 151, 151, 0.7);top: -4px;left: -4px;position: absolute; cursor: nw-resize;"></div>' +
+                  '<div ng-mousedown="onResizeBlock( $event, \'ne\' )" style="width: 8px;height: 8px;background: rgba(151, 151, 151, 0.7);top: -4px;right: -4px;position: absolute; cursor: ne-resize;"></div>' +
+                  '<div ng-mousedown="onResizeBlock( $event, \'sw\' )" style="width: 8px;height: 8px;background: rgba(151, 151, 151, 0.7);bottom: -4px;left: -4px;position: absolute; cursor: sw-resize;"></div>' +
+                  '<div ng-mousedown="onResizeBlock( $event, \'se\' )" style="width: 8px;height: 8px;background: rgba(151, 151, 151, 0.7);bottom: -4px;right: -4px;position: absolute; cursor: se-resize; "></div>' +
+                  '<div ng-mousedown="onResizeBlock( $event, \'tr\' )" style="width: 8px;height: 8px;background: rgba(151, 151, 151, 0.7);top: -4px;right: 49%;position: absolute; cursor: row-resize; "></div>' +
+                  '<div ng-mousedown="onResizeBlock( $event, \'br\' )" style="width: 8px;height: 8px;background: rgba(151, 151, 151, 0.7);bottom: -4px;right: 49%;position: absolute; cursor: row-resize; "></div>' +
+                  '<div ng-mousedown="onResizeBlock( $event, \'lc\' )" style="width: 8px;height: 8px;background: rgba(151, 151, 151, 0.7);bottom: 49%;left: -4px;position: absolute; cursor: col-resize;; "></div>' +
+                  '<div ng-mousedown="onResizeBlock( $event, \'rc\' )" style="width: 8px;height: 8px;background: rgba(151, 151, 151, 0.7);bottom: 49%;right: -4px;position: absolute; cursor: col-resize;; "></div>' +
+                '</div>',
       replace:true,
       link:function( scope, $element, attrs ){
 
+        angular.extend( scope, {
+
+          onResizeBlock:function( event , direction){
+
+            event.preventDefault();
+            event.stopPropagation();
+
+            this.resizeStartEvent = event;
+            this.resizeDirection = direction;
+
+          }
+
+        });
       }
     };
 
