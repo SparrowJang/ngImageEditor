@@ -44,6 +44,17 @@
           ctx.putImageData(imgData, 0, 0);
     },
 
+    /**
+    * @param {Canvas} canvas
+    * @param {Context} ctx
+    * @param {Image} img
+    * @param {Number} startLeft
+    * @param {Number} startTop
+    * @param {Number} imageWidth
+    * @param {Number} imageHeight
+    * @param {Number} blockWidth
+    * @param {Number} blockHeight
+    */
     drawImageBlock:function( canvas, ctx, img, startLeft, startTop, imageWidth, imageHeight, blockWidth, blockHeight ){
     
       var rateW = blockWidth / canvas.width,
@@ -58,6 +69,11 @@
     
     },
 
+    /**
+    * @param {Image} img
+    * @param {Object} selected
+    * @param {Object} imageSize
+    */
     render:function( img, selected, imageSize ){
 
       var ctx = this.ctx_,
@@ -80,12 +96,22 @@
 
     },
 
+    /**
+    * @param {Image} img
+    * @param {Object} selected
+    * @param {Object} imageSize
+    */
     refreshAndRender:function( img, selected, imageSize ){
 
        this.refresh();
        this.render( img, selected, imageSize );
     },
 
+    /**
+    * @param {String} type
+    * @param {Object} selected
+    * @return String
+    */
     toDataURL:function( type, selected ){
 
       var canvas = this.canvas_,
@@ -152,6 +178,12 @@
                  '<canvas width="100%" height="100%" style="position:absolute;top:0px;left:0px;"></canvas>' +
                  '<div ng-image-selected></div>' +
                '</div>',
+
+      /**
+      * @param {Scope} $scope
+      * @param {jqlite|jQuery} $element
+      * @param {Attribute} $attrs
+      */
       controller:[ '$scope', '$element', '$attrs', function( $scope, $element, $attrs ){
 
         var canvas, $canvas, overlay, img, imgSize, $body;
@@ -170,6 +202,9 @@
 
         var watcher = {
 
+          /**
+          * @param {String} src
+          */
           imgSrc:function( src ){
 
             var promise = getImageSize( src );
@@ -182,6 +217,10 @@
             });
 
           },
+
+          /**
+          * @param {Object} selected
+          */
           selected:function( selected ){
 
             //
@@ -195,6 +234,9 @@
 
         angular.extend( $scope, {
 
+          /**
+          * @param {Event} $event
+          */
           move : function( $event ){
 
             var dragEvent = $scope.dragEvent,
@@ -225,6 +267,9 @@
             }
           },
 
+          /**
+          * @param {Event} $event
+          */
           onResizeSelected:function( $event ){
 
               var resizeStartEvent = $scope.resizeStartEvent,
@@ -299,6 +344,12 @@
 
           },
 
+          /**
+          * @param {Number} top
+          * @param {Number} left
+          * @param {Number} width
+          * @param {Number} height
+          */
           resizeSelected:function( top, left, width, height ){
             
            var  selected = $scope.selected,
@@ -320,6 +371,10 @@
 
           ngImageEditor:{
 
+            /**
+            * @param {String} type
+            * @return String
+            */
             toDataURL:function( type ){
 
               var imageType = type ? type : "image/png";
@@ -362,10 +417,19 @@
                   '<div ng-style="{display:enableResizeSelector?\'block\':\'none\'}" ng-mousedown="onResizeBlock( $event, \'rc\' )" style="width: 8px;height: 8px;background: rgba(151, 151, 151, 0.7);bottom: 49%;right: -4px;position: absolute; cursor: col-resize;; "></div>' +
                 '</div>',
       replace:true,
+
+      /**
+      * @param {Scope} scope
+      * @param {jqlite|jQuery} $element
+      * @param {Attribute} attrs
+      */
       link:function( scope, $element, attrs ){
 
         angular.extend( scope, {
-
+          /**
+          * @param {Event} event
+          * @param {String} direction
+          */
           onResizeBlock:function( event , direction){
 
             event.preventDefault();
