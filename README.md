@@ -66,17 +66,17 @@ $scope.imageEditor.toDataURL();
 
 ##Parameter
 
-###enableResizeSelector
->Set a resize selector to be enable.
+###enabledResizeSelector
+>Set a resize selector to be enabled.
 
 Create a attribute to tag.
 ```html
-enable-resize-selector="enableResizeSelector"
+enabled-resize-selector="enableResizeSelector"
 ```
 
-The enable is true by set.
+The enabled is true by set.
 ```js
-$scope.enableResizeSelector = true;
+$scope.enabledResizeSelector = true;
 ```
 
 ###imgSrc
