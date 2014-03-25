@@ -7,6 +7,7 @@ module.exports = function( grunt ) {
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+    src:"public/src",
     uglify: {
       options: {
         banner: '/*! <%= pkg.name %> <%= pkg.version %> | Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author %> | <%= pkg.license %> license */\n'
@@ -23,6 +24,15 @@ module.exports = function( grunt ) {
         }   
       }   
     },
+    concat: {
+      dist:{
+        src:['<%= src %>/intro.js',
+             '<%= src %>/app.js',
+             '<%= src %>/ngImageEditor.js',
+             '<%= src %>/outro.js'],
+        dest:'dist/ngImageEditor.js'
+      }
+    },
     open: { 
       server:{
         path: "http://localhost:<%= express.server.options.port %>/index.html"
@@ -31,7 +41,7 @@ module.exports = function( grunt ) {
   });
    
    
-  grunt.registerTask('build', ['uglify']);
+  grunt.registerTask('build', ['concat','uglify']);
   grunt.registerTask('default', ['build']);
   grunt.registerTask('server', ['express','open','express-keepalive']);
 

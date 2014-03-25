@@ -1,11 +1,11 @@
 {
   "name": "ngImageEditor",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "authors": [
     "SparrowJang <sparrow.jang@gmail.com>"
   ],
   "description": "This is a image editor for angular.It can cut image.",
-  "main": "public/ngImageEditor.js",
+  "main": "dist/ngImageEditor.js",
   "keywords": [
     "image",
     "head",
