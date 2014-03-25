@@ -5,7 +5,7 @@
     "SparrowJang <sparrow.jang@gmail.com>"
   ],
   "description": "This is a image editor for angular.It can cut image.",
-  "main": "public/src/ngImageEditor.js",
+  "main": "public/ngImageEditor.js",
   "keywords": [
     "image",
     "head",
