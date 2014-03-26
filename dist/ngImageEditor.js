@@ -9,6 +9,10 @@ var app = angular.module( 'ngImageEditor', [] );
 
 
 
+/**
+* @class
+* @param {Canvas} canvas
+*/
 var Overlay = function( canvas ){
 
   this.canvas_ = canvas;
@@ -133,6 +137,9 @@ angular.extend( Overlay.prototype, {
   }
 
 });
+
+
+
 
 app.directive( 'ngImageEditor', ['$q', function( $q ){
 

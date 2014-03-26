@@ -28,6 +28,7 @@ module.exports = function( grunt ) {
       dist:{
         src:['<%= src %>/intro.js',
              '<%= src %>/app.js',
+             '<%= src %>/Overlay.js',
              '<%= src %>/ngImageEditor.js',
              '<%= src %>/outro.js'],
         dest:'dist/ngImageEditor.js'
