@@ -66,7 +66,7 @@ $scope.imageEditor.toDataURL();
 
 ##Parameter
 
-###enabledResizeSelector
+###enabledResizeSelector(optonal:default false)
 >Set a resize selector to be enabled.
 
 Create a attribute to tag.

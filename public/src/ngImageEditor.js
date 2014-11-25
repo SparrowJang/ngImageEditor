@@ -36,9 +36,9 @@ app.directive( 'ngImageEditor', ['$q', function( $q ){
 
     scope:{
       imgSrc:"=",
-      ngImageEditor:"=",
+      ngImageEditor:"=?",
       onImgChange:"&",
-      enabledResizeSelector:"=",
+      enabledResizeSelector:"=?",
       selected:"="
     },
 

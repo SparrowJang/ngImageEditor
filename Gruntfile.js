@@ -20,7 +20,7 @@ module.exports = function( grunt ) {
     express: {
       server: {
         options: {
-          bases: 'public'
+          bases: ['public','bower_components']
         }   
       }   
     },
