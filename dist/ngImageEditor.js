@@ -141,7 +141,7 @@ angular.extend( Overlay.prototype, {
 
 
 
-app.directive( 'ngImageEditor', ['$q', function( $q ){
+app.directive( 'ngImageEditor', ['$q', '$document', function( $q, $document ){
 
   var getImageSize = function( currentImg ){
 
@@ -184,7 +184,7 @@ app.directive( 'ngImageEditor', ['$q', function( $q ){
       selected:"="
     },
 
-    template:'<div ng-mousemove="move( $event )" ng-mouseup="cancel( $event )" unselectable="on">' +
+    template:'<div ng-mouseup="cancel( $event )" unselectable="on">' +
                '<img unselectable="on" style="opacity:0;user-drag: none;width:100%;height:100%;" crossorigin="Anonymous" ng-src="{{imgSrc}}" ng-mousedown="$event.preventDefault()" />' +
                '<canvas width="100%" height="100%" style="position:absolute;top:0px;left:0px;"></canvas>' +
                '<div ng-image-selected></div>' +
@@ -241,7 +241,6 @@ app.directive( 'ngImageEditor', ['$q', function( $q ){
 
       $scope.$watch( 'imgSrc', watcher.imgSrc);
       $scope.$watchCollection( 'selected', watcher.selected);
-
 
       angular.extend( $scope, {
 
@@ -363,9 +362,9 @@ app.directive( 'ngImageEditor', ['$q', function( $q ){
         */
         resizeSelected:function( top, left, width, height ){
           
-         var  selected = $scope.selected,
-              maxY = $element[0].clientHeight - selected.top,
-              maxX = $element[0].clientWidth - selected.left;
+          var  selected = $scope.selected,
+               maxY = $element[0].clientHeight - selected.top,
+               maxX = $element[0].clientWidth - selected.left;
 
           selected.top = top > 0 ? 
                          ( top < selected.top + selected.height ? top : selected.top )  : 0;
@@ -401,8 +400,12 @@ app.directive( 'ngImageEditor', ['$q', function( $q ){
         }
       });
 
-      $body.on( "mouseup", function(){
+      $document.on('mousemove', function( $event ){
+        $scope.move( $event );
+        $scope.$apply();
+      });
 
+      $document.on( "mouseup", function(){
         $scope.cancel();
       });
 
