@@ -349,6 +349,9 @@ app.directive( 'ngImageEditor', ['$q', '$document', function( $q, $document ){
 
             }
 
+            lastHeight = lastTop < 0 ? lastHeight + lastTop:lastHeight;
+            lastWidth = lastLeft < 0 ? lastWidth + lastLeft:lastWidth;
+
             this.resizeSelected( lastTop, lastLeft, lastWidth, lastHeight );
             $scope.resizeStartEvent = $event;
 
