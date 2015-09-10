@@ -1,5 +1,5 @@
 {
-  "name": "ngImageEditor",
+  "name": "ng-image-editor",
   "version": "0.1.7",
   "description": "This is a image editor for angular.It can cut image.",
   "main": "dist/ngImageEditor",
