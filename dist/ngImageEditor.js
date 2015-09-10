@@ -466,4 +466,6 @@ app.directive( 'ngImageSelected', function(){
 
 
 
+if ( typeof module !== "undefined" ) module.exports = "ngImageEditor";
+
 })( angular );
