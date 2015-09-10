@@ -19,6 +19,12 @@ This is a image editor for angular.It can cut image.
 bower install ngImageEditor
 ```
 
+or
+
+```
+npm install ng-image-editor
+```
+
 ##Support
 
 * IE9+
