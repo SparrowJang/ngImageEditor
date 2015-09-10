@@ -9,6 +9,10 @@
     "editor",
     "capture"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SparrowJang/ngImageEditor"
+  },
   "devDependencies": {
     "grunt": "~0.4.1",
     "grunt-open": "~0.2.0",
