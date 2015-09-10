@@ -90,7 +90,7 @@ $scope.enabledResizeSelector = true;
 
 ##Event
 
-###on-image-change `Event`
+###on-image-change( imgSize ) `Event`
 >The image is loaded and rendered.
 
 ##Run

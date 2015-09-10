@@ -81,7 +81,7 @@ app.directive( 'ngImageEditor', ['$q', '$document', function( $q, $document ){
           promise.then(function( size ){
             imgSize = size;
             overlay.refreshAndRender( img, $scope.selected, imgSize );
-            $scope.onImgChange();
+            $scope.onImgChange({imgSize:imgSize});
             //console.log( overlay.toDataURL( "image/png" , $scope.selected ) );
           });
 
