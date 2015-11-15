@@ -11,7 +11,7 @@ This is a image editor for angular.It can cut image.
 
 ##Demo
 
-[demo](http://www.sparrowjang.com/example/bower_components/ngImageEditor/public/index.html)
+[demo](http://www.sparrowjang.com/ngImageEditor/public/index.html)
 
 ##Install
 
