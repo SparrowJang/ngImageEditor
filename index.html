@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Ngimageeditor : This is a image editor for angular.It can cut image.">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Ngimageeditor</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/SparrowJang/ngImageEditor">View on GitHub</a>
+
+          <h1 id="project_title">Ngimageeditor</h1>
+          <h2 id="project_tagline">This is a image editor for angular.It can cut image.</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/SparrowJang/ngImageEditor/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/SparrowJang/ngImageEditor/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a id="ngimageeditor" class="anchor" href="#ngimageeditor" aria-hidden="true"><span class="octicon octicon-link"></span></a>ngImageEditor</h1>
+
+<p><img src="/public/images/screenprint.png" alt="demo image"></p>
+
+<p>This is a image editor for angular.It can cut image.</p>
+
+<h2>
+<a id="dependency" class="anchor" href="#dependency" aria-hidden="true"><span class="octicon octicon-link"></span></a>Dependency</h2>
+
+<ul>
+<li>angularjs</li>
+</ul>
+
+<h2>
+<a id="demo" class="anchor" href="#demo" aria-hidden="true"><span class="octicon octicon-link"></span></a>Demo</h2>
+
+<p><a href="http://www.sparrowjang.com/example/bower_components/ngImageEditor/public/index.html">demo</a></p>
+
+<h2>
+<a id="install" class="anchor" href="#install" aria-hidden="true"><span class="octicon octicon-link"></span></a>Install</h2>
+
+<pre><code>bower install ngImageEditor
+</code></pre>
+
+<p>or</p>
+
+<pre><code>npm install ng-image-editor
+</code></pre>
+
+<h2>
+<a id="support" class="anchor" href="#support" aria-hidden="true"><span class="octicon octicon-link"></span></a>Support</h2>
+
+<ul>
+<li>IE9+</li>
+<li>chrome</li>
+<li>firefox</li>
+</ul>
+
+<p>The input image is not cross domain.It is browser limit.</p>
+
+<p>You can add this header to your server to resolve cross domain.</p>
+
+<pre><code>Access-Control-Allow-Origin: http://your.domain.com
+</code></pre>
+
+<h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<p>Set some attrs of element.</p>
+
+<div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">div</span> <span class="pl-e">img-src</span>=<span class="pl-s"><span class="pl-pds">"</span>imgSrc<span class="pl-pds">"</span></span> <span class="pl-e">ng-image-editor</span>=<span class="pl-s"><span class="pl-pds">"</span>imageEditor<span class="pl-pds">"</span></span> <span class="pl-e">selected</span>=<span class="pl-s"><span class="pl-pds">"</span>selected<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">div</span>&gt;</pre></div>
+
+<p>Load a image for cut.</p>
+
+<div class="highlight highlight-source-js"><pre>$scope.imgSrc<span class="pl-k">=</span><span class="pl-s"><span class="pl-pds">'</span>/images/head.jpeg<span class="pl-pds">'</span></span>;</pre></div>
+
+<p>Set a selected block size.</p>
+
+<div class="highlight highlight-source-js"><pre>$scope.<span class="pl-c1">selected</span> <span class="pl-k">=</span> {width<span class="pl-k">:</span><span class="pl-c1">150</span>,height<span class="pl-k">:</span><span class="pl-c1">150</span>,top<span class="pl-k">:</span><span class="pl-c1">0</span>,left<span class="pl-k">:</span><span class="pl-c1">0</span>};</pre></div>
+
+<p>Get a image data of selected block.</p>
+
+<div class="highlight highlight-source-js"><pre>$scope.imageEditor.toDataURL();</pre></div>
+
+<h2>
+<a id="method" class="anchor" href="#method" aria-hidden="true"><span class="octicon octicon-link"></span></a>Method</h2>
+
+<h3>
+<a id="refresh" class="anchor" href="#refresh" aria-hidden="true"><span class="octicon octicon-link"></span></a>refresh</h3>
+
+<blockquote>
+<p>Resize and render canvas</p>
+</blockquote>
+
+<h2>
+<a id="parameter" class="anchor" href="#parameter" aria-hidden="true"><span class="octicon octicon-link"></span></a>Parameter</h2>
+
+<h3>
+<a id="enabledresizeselectoroptonaldefault-false" class="anchor" href="#enabledresizeselectoroptonaldefault-false" aria-hidden="true"><span class="octicon octicon-link"></span></a>enabledResizeSelector(optonal:default false)</h3>
+
+<blockquote>
+<p>Set a resize selector to be enabled.</p>
+</blockquote>
+
+<p>Create a attribute to tag.</p>
+
+<div class="highlight highlight-text-html-basic"><pre>enabled-resize-selector="enableResizeSelector"</pre></div>
+
+<p>The enabled is true by set.</p>
+
+<div class="highlight highlight-source-js"><pre>$scope.enabledResizeSelector <span class="pl-k">=</span> <span class="pl-c1">true</span>;</pre></div>
+
+<h3>
+<a id="imgsrc" class="anchor" href="#imgsrc" aria-hidden="true"><span class="octicon octicon-link"></span></a>imgSrc</h3>
+
+<blockquote>
+<p>Set a editor image.</p>
+</blockquote>
+
+<h3>
+<a id="selected" class="anchor" href="#selected" aria-hidden="true"><span class="octicon octicon-link"></span></a>Selected</h3>
+
+<blockquote>
+<p>Set top、left、width and height for selector.</p>
+</blockquote>
+
+<h3>
+<a id="todataurl" class="anchor" href="#todataurl" aria-hidden="true"><span class="octicon octicon-link"></span></a>toDataURL</h3>
+
+<blockquote>
+<p>output a base64 string</p>
+</blockquote>
+
+<h2>
+<a id="event" class="anchor" href="#event" aria-hidden="true"><span class="octicon octicon-link"></span></a>Event</h2>
+
+<h3>
+<a id="on-image-change-imgsize--event" class="anchor" href="#on-image-change-imgsize--event" aria-hidden="true"><span class="octicon octicon-link"></span></a>on-image-change( imgSize ) <code>Event</code>
+</h3>
+
+<blockquote>
+<p>The image is loaded and rendered.</p>
+</blockquote>
+
+<h2>
+<a id="run" class="anchor" href="#run" aria-hidden="true"><span class="octicon octicon-link"></span></a>Run</h2>
+
+<p>Clone this project.</p>
+
+<div class="highlight highlight-source-shell"><pre>git clone https://github.com/SparrowJang/ngImageEditor
+
+<span class="pl-c1">cd</span> ngImageEditor</pre></div>
+
+<p>Install the express framework and grunt modules.</p>
+
+<pre><code>npm install
+</code></pre>
+
+<p>run a server:</p>
+
+<pre><code>grunt server
+</code></pre>
+
+<p>Finally,open your brower,enter <a href="http://localhost/index.html">http://localhost:3000/index.html</a>.</p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Ngimageeditor maintained by <a href="https://github.com/SparrowJang">SparrowJang</a></p>
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
