@@ -1,0 +1,77 @@
+
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<style type="text/css">
+		.ng-image-editor {
+			width:200px;
+			height:200px;
+		}
+        .ng-image-editor {
+			float:left;
+		}
+		.offset-1 {
+			margin-left:10px;
+		}
+		.clear {
+			width:0px;
+			height:0px;
+			clear:both;
+		}
+	</style>
+</head>
+<body ng-controller="testCtrl">
+
+
+	<div on-img-change="onImageChange(imgSize)" class="ng-image-editor" selected="selected" img-src="imgSrc" ng-image-editor="imageEditor" ng-init="imgSrc='/images/head.jpeg'; selected = {width:150,height:150,top:0,left:0};" enabled-resize-selector = "enabledResizeSelector" ></div>
+<img class="offset-1" ng-src="{{selectedBlock}}" alt="" />
+<div class="clear"></div>
+<br />
+
+top:<input type="number" ng-model="selected.top" />
+<br>
+left:<input type="number" ng-model="selected.left" />
+<br>
+width:<input type="number" ng-model="selected.width" />
+<br>
+height:<input type="number" ng-model="selected.height" />
+<br>
+
+<button type="button" ng-click="capture()" ng-disabled="!enabled">capture</button>
+
+	<script type="text/javascript" src="angular.js"></script>
+    <script type="text/javascript" src="src/app.js"></script>
+    <script type="text/javascript" src="src/Overlay.js"></script>
+    <script type="text/javascript" src="src/ngImageEditor.js"></script>
+	<script type="text/javascript">
+        var demoApp = angular.module( 'demo', ['ngImageEditor'] );
+        demoApp.controller( 'testCtrl', function( $scope ){
+
+            $scope.enabledResizeSelector = true;
+
+			var clear = $scope.$watch( 'imageEditor', function( imageEditor ){
+
+              //console.log( $scope.imageEditor );
+              //window.imageEditor = $scope.imageEditor;
+              if ( imageEditor ) {
+                clear();
+                $scope.enabled = true;
+              }
+            });
+
+            $scope.capture = function(){
+
+				$scope.selectedBlock = $scope.imageEditor.toDataURL();
+			};
+
+			$scope.onImageChange = function(size){
+              console.log( 'img change width:' + size.width + ' height:' + size.height );
+            }
+		});
+        angular.bootstrap( document, [demoApp.name] );
+	</script>
+</body>
+</html>
+
