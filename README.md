@@ -94,6 +94,12 @@ $scope.enabledResizeSelector = true;
 ###toDataURL
 >output a base64 string
 
+###fixAspect
+>Fix the aspect to be a square
+```html
+fix-aspect="true"
+```
+
 ##Event
 
 ###on-image-change( imgSize ) `Event`

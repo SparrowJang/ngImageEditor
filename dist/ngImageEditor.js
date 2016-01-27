@@ -83,24 +83,27 @@ angular.extend( Overlay.prototype, {
   * @param {Object} imageSize
   */
   render:function( img, selected, imageSize ){
+      
+      if(imageSize){
 
-    var ctx = this.ctx_,
-        canvas = this.canvas_,
-        width = canvas.width,
-        height = canvas.height,
-        widthRate = imageSize.width / width,
-        heightRate = imageSize.height / height;
+        var ctx = this.ctx_,
+            canvas = this.canvas_,
+            width = canvas.width,
+            height = canvas.height,
+            widthRate = imageSize.width / width,
+            heightRate = imageSize.height / height;
 
-    //console.log( img.clientWidth );
+        //console.log( img.clientWidth );
 
-    ctx.drawImage( img, 0, 0, width, height );
+        ctx.drawImage( img, 0, 0, width, height );
 
-    this.converterToGray_();
+        this.converterToGray_();
 
-    //console.log( selected, widthRate, widthRate * selected.width, imageSize.width, imageSize.height );
+            //console.log( selected, widthRate, widthRate * selected.width, imageSize.width, imageSize.height );
 
-    this.drawImageBlock( canvas, ctx, img, selected.left, selected.top, imageSize.width, imageSize.height, selected.width, selected.height );
-    //ctx.drawImage( img, selected.left * widthRate , selected.top * heightRate, imageSize.width * widthRate, imageSize.height * heightRate , selected.left, selected.top, selected.width, selected.height );
+            this.drawImageBlock( canvas, ctx, img, selected.left, selected.top, imageSize.width, imageSize.height, selected.width, selected.height );
+            //ctx.drawImage( img, selected.left * widthRate , selected.top * heightRate, imageSize.width * widthRate, imageSize.height * heightRate , selected.left,            selected.top, selected.width, selected.height );
+      }
 
   },
 
@@ -181,7 +184,8 @@ app.directive( 'ngImageEditor', ['$q', '$document', function( $q, $document ){
       ngImageEditor:"=?",
       onImgChange:"&",
       enabledResizeSelector:"=?",
-      selected:"="
+      selected:"=",
+      fixAspect:"=?"    
     },
 
     template:'<div ng-mouseup="cancel( $event )" unselectable="on">' +
@@ -224,7 +228,6 @@ app.directive( 'ngImageEditor', ['$q', '$document', function( $q, $document ){
             imgSize = size;
             overlay.refreshAndRender( img, $scope.selected, imgSize );
             $scope.onImgChange({imgSize:imgSize});
-            //console.log( overlay.toDataURL( "image/png" , $scope.selected ) );
           });
 
         },
@@ -258,7 +261,6 @@ app.directive( 'ngImageEditor', ['$q', '$document', function( $q, $document ){
 
           if ( dragEvent ) {
 
-            //console.log( $event );
             top = selected.top - ( dragEvent.clientY -  $event.clientY );
             left = selected.left - ( dragEvent.clientX - $event.clientX );
 
@@ -281,17 +283,37 @@ app.directive( 'ngImageEditor', ['$q', '$document', function( $q, $document ){
         * @param {Event} $event
         */
         onResizeSelected:function( $event ){
-
             var resizeStartEvent = $scope.resizeStartEvent,
                 y = resizeStartEvent.clientY - $event.clientY,
                 x = resizeStartEvent.clientX - $event.clientX,
                 resizeDirection = $scope.resizeDirection,
                 selected = $scope.selected,
                 lastTop, lastLeft, lastHeight, lastWidth;
+            
+            var fixAspect = function(){
+                if($scope.fixAspect){
+                    var changeInX = x < 0 ? x * -1 : x;
+                    var changeInY = y < 0 ? y * -1 : y;     
+                    if(changeInX > changeInY){
+                        if((x < 0 && y > -1) || (x > -1 && y < 0)){
+                            x= y * -1;
+                        }else{
+                            x=y;
+                        } 
+                    }else{
+                        if((x < 0 && y > -1) || (x > -1 && y < 0)){
+                            y= x * -1;
+                        }else{
+                            y=x;
+                        }
+                    }
+                }
+            }
 
             switch ( resizeDirection ) {
 
               case "nw":
+                fixAspect();    
                 lastTop = selected.top - y;
                 lastLeft = selected.left - x;
                 lastWidth = selected.width + x;
@@ -299,6 +321,7 @@ app.directive( 'ngImageEditor', ['$q', '$document', function( $q, $document ){
                 break;
 
               case "ne":
+                fixAspect(); 
                 lastTop = selected.top - y;
                 lastLeft = selected.left;
                 lastWidth = selected.width - x;
@@ -306,6 +329,7 @@ app.directive( 'ngImageEditor', ['$q', '$document', function( $q, $document ){
                 break;
 
               case "sw":
+                fixAspect();      
                 lastTop = selected.top;
                 lastLeft = selected.left - x;
                 lastHeight = selected.height - y;
@@ -313,6 +337,7 @@ app.directive( 'ngImageEditor', ['$q', '$document', function( $q, $document ){
                 break;
 
               case "se":
+                fixAspect();  
                 lastTop = selected.top;
                 lastLeft = selected.left;
                 lastWidth = selected.width - x;
@@ -369,12 +394,41 @@ app.directive( 'ngImageEditor', ['$q', '$document', function( $q, $document ){
                maxY = $element[0].clientHeight - selected.top,
                maxX = $element[0].clientWidth - selected.left;
 
-          selected.top = top > 0 ? 
-                         ( top < selected.top + selected.height ? top : selected.top )  : 0;
-          selected.left = left > 0 ?
-                         ( left < selected.left + selected.width ? left : selected.left ): 0;
-          selected.width = width <= maxX? ( width < 0 ? 0 : width ):maxX;
-          selected.height = height <= maxY ? ( height < 0 ? 0: height ):maxY;
+            var newWidth = width <= maxX ? (width < 0 ? 0 : width) : maxX,
+                newHeight = height <= maxY ? (height < 0 ? 0 : height) : maxY;
+
+            if ($scope.fixAspect) {
+                var takeWidth = function () {
+                    selected.width = newWidth;
+                    selected.height = newWidth;
+                    selected.left = left > 0 ?
+                            (left < selected.left + selected.width ? left : selected.left) : 0;
+                }
+
+                var takeHeight = function () {
+                    selected.height = newHeight;
+                    selected.width = newHeight;
+                    selected.left = left > 0 ?
+                            (left < selected.left + selected.width ? left : selected.left) : 0;
+                }
+
+                if (selected.width == newWidth) {
+                    takeHeight();
+                } else if (selected.height == newHeight) {
+                    takeWidth();
+                } else if (height - newHeight > width - newWidth) {
+                    takeHeight();
+                } else {
+                    takeWidth();
+                }
+            } else {
+                selected.top = top > 0 ?
+                    (top < selected.top + selected.height ? top : selected.top) : 0;
+                selected.left = left > 0 ?
+                    (left < selected.left + selected.width ? left : selected.left) : 0;
+                selected.width = width <= maxX ? (width < 0 ? 0 : width) : maxX;
+                selected.height = height <= maxY ? (height < 0 ? 0 : height) : maxY;
+            }
         },
 
         cancel :function(){
