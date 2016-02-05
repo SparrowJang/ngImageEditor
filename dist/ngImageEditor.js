@@ -239,10 +239,19 @@ app.directive( 'ngImageEditor', ['$q', '$document', function( $q, $document ){
 
           //
           if ( $scope.dragEvent == null && imgSize ) overlay.refreshAndRender( img, selected, imgSize );
+        },
+
+        /**
+        *
+        */
+        aspectRatio:function(){
+          var selected = $scope.selected;
+          $scope.resizeSelected(selected.top, selected.left, selected.width, selected.height);
         }
       };
 
       $scope.$watch( 'imgSrc', watcher.imgSrc);
+      $scope.$watch( 'aspectRatio', watcher.aspectRatio);
       $scope.$watchCollection( 'selected', watcher.selected);
 
       angular.extend( $scope, {
@@ -406,15 +415,31 @@ app.directive( 'ngImageEditor', ['$q', '$document', function( $q, $document ){
                   throw 'Invalid aspect-ratio';
 
                 var takeWidth = function () {
-                    selected.width = newWidth;
-                    selected.height = newWidth / aspectRatio;
+                    var aspectHeight = newWidth / aspectRatio;
+
+                    if ( aspectHeight > maxY ) {
+                      selected.height = maxY;
+                      selected.width = maxY * aspectRatio;
+                    } else {
+                      selected.height = aspectHeight;
+                      selected.width = newWidth;
+                    }
+
                     selected.left = left > 0 ?
                             (left < selected.left + selected.width ? left : selected.left) : 0;
                 }
 
                 var takeHeight = function () {
-                    selected.height = newHeight;
-                    selected.width = newHeight * aspectRatio;
+                    var aspectWidth = newHeight * aspectRatio;
+
+                    if ( aspectWidth > maxX ) {
+                      selected.width = maxX;
+                      selected.height = maxX / aspectRatio;
+                    } else {
+                      selected.height = newHeight;
+                      selected.width = newHeight * aspectRatio;
+                    }
+
                     selected.left = left > 0 ?
                             (left < selected.left + selected.width ? left : selected.left) : 0;
                 }
