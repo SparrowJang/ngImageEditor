@@ -94,10 +94,15 @@ $scope.enabledResizeSelector = true;
 ###toDataURL
 >output a base64 string
 
-###fixAspect
->Fix the aspect to be a square
+###aspectRatio
+>Set the aspect ratio
 ```html
-fix-aspect="true"
+aspect-ratio="16:9"
+```
+
+>Set the aspect ratio to `2:2` if you need to be square
+```html
+<div selected="selected" img-src="imgSrc" ng-image-editor="imageEditor" ng-init="imgSrc='/images/head.jpeg'; selected = {width:50,height:50,top:0,left:0};" aspect-ratio="2:2" > </div>
 ```
 
 ##Event
