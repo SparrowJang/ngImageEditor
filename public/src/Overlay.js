@@ -25,11 +25,15 @@ angular.extend( Overlay.prototype, {
 
     var ctx = this.ctx_,
         canvas = this.canvas_,
-        imgData = ctx.getImageData(0, 0, canvas.width, canvas.height),
-        data = imgData.data,
-        dataSize = data.length;
-
-        for (var i = 0; i < dataSize ; i=i+4) {
+        imgData,
+        data,
+        dataSize;
+      
+      if(canvas.width != 0 && canvas.height != 0){
+          imgData = ctx.getImageData(0, 0, canvas.width, canvas.height)
+          data = imgData.data,
+          dataSize = data.length;
+          for (var i = 0; i < dataSize ; i=i+4) {
           var r = data[i] ;
           var g = data[i + 1];
           var b = data[i + 2];
@@ -39,7 +43,8 @@ angular.extend( Overlay.prototype, {
           data[i + 1] = brightness;
           data[i + 2] = brightness;
         }
-        ctx.putImageData(imgData, 0, 0);
+        ctx.putImageData(imgData, 0, 0);          
+      }
   },
 
   /**
