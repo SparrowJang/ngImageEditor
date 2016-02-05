@@ -25,11 +25,15 @@ angular.extend( Overlay.prototype, {
 
     var ctx = this.ctx_,
         canvas = this.canvas_,
-        imgData = ctx.getImageData(0, 0, canvas.width, canvas.height),
-        data = imgData.data,
-        dataSize = data.length;
-
-        for (var i = 0; i < dataSize ; i=i+4) {
+        imgData,
+        data,
+        dataSize;
+      
+      if(canvas.width != 0 && canvas.height != 0){
+          imgData = ctx.getImageData(0, 0, canvas.width, canvas.height)
+          data = imgData.data,
+          dataSize = data.length;
+          for (var i = 0; i < dataSize ; i=i+4) {
           var r = data[i] ;
           var g = data[i + 1];
           var b = data[i + 2];
@@ -39,7 +43,8 @@ angular.extend( Overlay.prototype, {
           data[i + 1] = brightness;
           data[i + 2] = brightness;
         }
-        ctx.putImageData(imgData, 0, 0);
+        ctx.putImageData(imgData, 0, 0);          
+      }
   },
 
   /**
@@ -73,24 +78,27 @@ angular.extend( Overlay.prototype, {
   * @param {Object} imageSize
   */
   render:function( img, selected, imageSize ){
+      
+      if(imageSize){
 
-    var ctx = this.ctx_,
-        canvas = this.canvas_,
-        width = canvas.width,
-        height = canvas.height,
-        widthRate = imageSize.width / width,
-        heightRate = imageSize.height / height;
+        var ctx = this.ctx_,
+            canvas = this.canvas_,
+            width = canvas.width,
+            height = canvas.height,
+            widthRate = imageSize.width / width,
+            heightRate = imageSize.height / height;
 
-    //console.log( img.clientWidth );
+        //console.log( img.clientWidth );
 
-    ctx.drawImage( img, 0, 0, width, height );
+        ctx.drawImage( img, 0, 0, width, height );
 
-    this.converterToGray_();
+        this.converterToGray_();
 
-    //console.log( selected, widthRate, widthRate * selected.width, imageSize.width, imageSize.height );
+            //console.log( selected, widthRate, widthRate * selected.width, imageSize.width, imageSize.height );
 
-    this.drawImageBlock( canvas, ctx, img, selected.left, selected.top, imageSize.width, imageSize.height, selected.width, selected.height );
-    //ctx.drawImage( img, selected.left * widthRate , selected.top * heightRate, imageSize.width * widthRate, imageSize.height * heightRate , selected.left, selected.top, selected.width, selected.height );
+            this.drawImageBlock( canvas, ctx, img, selected.left, selected.top, imageSize.width, imageSize.height, selected.width, selected.height );
+            //ctx.drawImage( img, selected.left * widthRate , selected.top * heightRate, imageSize.width * widthRate, imageSize.height * heightRate , selected.left,            selected.top, selected.width, selected.height );
+      }
 
   },
 

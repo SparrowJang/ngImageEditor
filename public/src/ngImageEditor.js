@@ -39,7 +39,8 @@ app.directive( 'ngImageEditor', ['$q', '$document', function( $q, $document ){
       ngImageEditor:"=?",
       onImgChange:"&",
       enabledResizeSelector:"=?",
-      selected:"="
+      selected:"=",
+      aspectRatio:"@?"
     },
 
     template:'<div ng-mouseup="cancel( $event )" unselectable="on">' +
@@ -82,7 +83,6 @@ app.directive( 'ngImageEditor', ['$q', '$document', function( $q, $document ){
             imgSize = size;
             overlay.refreshAndRender( img, $scope.selected, imgSize );
             $scope.onImgChange({imgSize:imgSize});
-            //console.log( overlay.toDataURL( "image/png" , $scope.selected ) );
           });
 
         },
@@ -94,10 +94,19 @@ app.directive( 'ngImageEditor', ['$q', '$document', function( $q, $document ){
 
           //
           if ( $scope.dragEvent == null && imgSize ) overlay.refreshAndRender( img, selected, imgSize );
+        },
+
+        /**
+        *
+        */
+        aspectRatio:function(){
+          var selected = $scope.selected;
+          $scope.resizeSelected(selected.top, selected.left, selected.width, selected.height);
         }
       };
 
       $scope.$watch( 'imgSrc', watcher.imgSrc);
+      $scope.$watch( 'aspectRatio', watcher.aspectRatio);
       $scope.$watchCollection( 'selected', watcher.selected);
 
       angular.extend( $scope, {
@@ -116,7 +125,6 @@ app.directive( 'ngImageEditor', ['$q', '$document', function( $q, $document ){
 
           if ( dragEvent ) {
 
-            //console.log( $event );
             top = selected.top - ( dragEvent.clientY -  $event.clientY );
             left = selected.left - ( dragEvent.clientX - $event.clientX );
 
@@ -139,7 +147,6 @@ app.directive( 'ngImageEditor', ['$q', '$document', function( $q, $document ){
         * @param {Event} $event
         */
         onResizeSelected:function( $event ){
-
             var resizeStartEvent = $scope.resizeStartEvent,
                 y = resizeStartEvent.clientY - $event.clientY,
                 x = resizeStartEvent.clientX - $event.clientX,
@@ -147,9 +154,30 @@ app.directive( 'ngImageEditor', ['$q', '$document', function( $q, $document ){
                 selected = $scope.selected,
                 lastTop, lastLeft, lastHeight, lastWidth;
 
+            var fixAspect = function(){
+                if(angular.isDefined($scope.aspectRatio)){
+                    var changeInX = x < 0 ? x * -1 : x;
+                    var changeInY = y < 0 ? y * -1 : y;
+                    if(changeInX > changeInY){
+                        if((x < 0 && y > -1) || (x > -1 && y < 0)){
+                            x= y * -1;
+                        }else{
+                            x=y;
+                        }
+                    }else{
+                        if((x < 0 && y > -1) || (x > -1 && y < 0)){
+                            y= x * -1;
+                        }else{
+                            y=x;
+                        }
+                    }
+                }
+            }
+
             switch ( resizeDirection ) {
 
               case "nw":
+                fixAspect();
                 lastTop = selected.top - y;
                 lastLeft = selected.left - x;
                 lastWidth = selected.width + x;
@@ -157,6 +185,7 @@ app.directive( 'ngImageEditor', ['$q', '$document', function( $q, $document ){
                 break;
 
               case "ne":
+                fixAspect();
                 lastTop = selected.top - y;
                 lastLeft = selected.left;
                 lastWidth = selected.width - x;
@@ -164,6 +193,7 @@ app.directive( 'ngImageEditor', ['$q', '$document', function( $q, $document ){
                 break;
 
               case "sw":
+                fixAspect();
                 lastTop = selected.top;
                 lastLeft = selected.left - x;
                 lastHeight = selected.height - y;
@@ -171,6 +201,7 @@ app.directive( 'ngImageEditor', ['$q', '$document', function( $q, $document ){
                 break;
 
               case "se":
+                fixAspect();
                 lastTop = selected.top;
                 lastLeft = selected.left;
                 lastWidth = selected.width - x;
@@ -222,17 +253,69 @@ app.directive( 'ngImageEditor', ['$q', '$document', function( $q, $document ){
         * @param {Number} height
         */
         resizeSelected:function( top, left, width, height ){
-          
+
           var  selected = $scope.selected,
                maxY = $element[0].clientHeight - selected.top,
                maxX = $element[0].clientWidth - selected.left;
 
-          selected.top = top > 0 ? 
-                         ( top < selected.top + selected.height ? top : selected.top )  : 0;
-          selected.left = left > 0 ?
-                         ( left < selected.left + selected.width ? left : selected.left ): 0;
-          selected.width = width <= maxX? ( width < 0 ? 0 : width ):maxX;
-          selected.height = height <= maxY ? ( height < 0 ? 0: height ):maxY;
+            var newWidth = width <= maxX ? (width < 0 ? 0 : width) : maxX,
+                newHeight = height <= maxY ? (height < 0 ? 0 : height) : maxY;
+
+            if (angular.isDefined($scope.aspectRatio)) {
+
+                var aspectRatio = parseInt($scope.aspectRatio.split(':')[0])/
+                                  parseInt($scope.aspectRatio.split(':')[1]);
+
+                if(isNaN(aspectRatio))
+                  throw 'Invalid aspect-ratio';
+
+                var takeWidth = function () {
+                    var aspectHeight = newWidth / aspectRatio;
+
+                    if ( aspectHeight > maxY ) {
+                      selected.height = maxY;
+                      selected.width = maxY * aspectRatio;
+                    } else {
+                      selected.height = aspectHeight;
+                      selected.width = newWidth;
+                    }
+
+                    selected.left = left > 0 ?
+                            (left < selected.left + selected.width ? left : selected.left) : 0;
+                }
+
+                var takeHeight = function () {
+                    var aspectWidth = newHeight * aspectRatio;
+
+                    if ( aspectWidth > maxX ) {
+                      selected.width = maxX;
+                      selected.height = maxX / aspectRatio;
+                    } else {
+                      selected.height = newHeight;
+                      selected.width = newHeight * aspectRatio;
+                    }
+
+                    selected.left = left > 0 ?
+                            (left < selected.left + selected.width ? left : selected.left) : 0;
+                }
+
+                if (selected.width == newWidth) {
+                    takeHeight();
+                } else if (selected.height == newHeight) {
+                    takeWidth();
+                } else if (height - newHeight > width - newWidth) {
+                    takeHeight();
+                } else {
+                    takeWidth();
+                }
+            } else {
+                selected.top = top > 0 ?
+                    (top < selected.top + selected.height ? top : selected.top) : 0;
+                selected.left = left > 0 ?
+                    (left < selected.left + selected.width ? left : selected.left) : 0;
+                selected.width = width <= maxX ? (width < 0 ? 0 : width) : maxX;
+                selected.height = height <= maxY ? (height < 0 ? 0 : height) : maxY;
+            }
         },
 
         cancel :function(){
@@ -320,5 +403,3 @@ app.directive( 'ngImageSelected', function(){
   };
 
 });
-
-
