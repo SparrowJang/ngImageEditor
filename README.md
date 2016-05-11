@@ -92,8 +92,11 @@ $scope.enabledResizeSelector = true;
 >Set top、left、width and height for selector.
 
 ###toDataURL(opts:Object)
+
 > opts.useOriginalImg
+
 > opts.imageType
+
 >output a base64 string
 
 ###aspectRatio
