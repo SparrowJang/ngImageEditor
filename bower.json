@@ -1,6 +1,6 @@
 {
   "name": "ngImageEditor",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "authors": [
     "SparrowJang <sparrow.jang@gmail.com>"
   ],
@@ -13,7 +13,7 @@
     "capture"
   ],
   "dependencies":{
-    "angular": "~1.4.1"
+    "angular": "~1.5.5"
   },
   "license": "MIT",
   "ignore": [

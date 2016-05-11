@@ -128,19 +128,36 @@ angular.extend( Overlay.prototype, {
   * @param {Object} selected
   * @return String
   */
-  toDataURL:function( type, selected ){
+  toDataURL:function( selected, opts ){
 
     var canvas = this.canvas_,
         copyCanvas = document.createElement('canvas'),
         ctx = copyCanvas.getContext('2d');
 
-    copyCanvas.width = selected.width;
-    copyCanvas.height = selected.height;
+    if ( !opts.useOriginalImg ) {
+      copyCanvas.width = selected.width;
+      copyCanvas.height = selected.height;
+      ctx.drawImage( canvas, selected.left, selected.top, selected.width, selected.height, 0, 0, selected.width, selected.height );
+    } else {
+      var img = opts.img;
+      var imgSize = opts.imgSize;
+	  var ratioWidth = canvas.width / imgSize.width;
+      var ratioHeight = canvas.height / imgSize.height;
+      var outputWidth = selected.width / ratioWidth;
+      var outputHeight = selected.height /ratioHeight;
+      var startLeft = selected.left / ratioWidth;
+      var startTop  = selected.top / ratioHeight;
+      var cropWidth = selected.width / ratioWidth;
+      var cropHeight = selected.height / ratioHeight;
+      
+      copyCanvas.width = outputWidth;
+      copyCanvas.height = outputHeight;
+      ctx.drawImage( img, startLeft, startTop, cropWidth, cropHeight, 0, 0, outputWidth, outputHeight );
+    }
 
     //this.drawImageBlock( copyCanvas, ctx, canvas, selected.left, selected.top, canvas.width, canvas.height, selected.width, selected.height );
-    ctx.drawImage( canvas, selected.left, selected.top, selected.width, selected.height, 0, 0, selected.width, selected.height );
 
-    return copyCanvas.toDataURL( type );
+    return copyCanvas.toDataURL( opts.imageType );
 
   }
 
@@ -479,11 +496,16 @@ app.directive( 'ngImageEditor', ['$q', '$document', function( $q, $document ){
           * @param {String} type
           * @return String
           */
-          toDataURL:function( type ){
+          toDataURL:function( opts ){
+            var _opts = {imageType:"image/png", img:img, imgSize:imgSize};
 
-            var imageType = type ? type : "image/png";
+            if ( typeof opts === "string" ) {
+              _opts["imageType"] = opts;
+            } else {
+              _opts = angular.extend(_opts, opts);
+            }
 
-            return overlay.toDataURL( imageType , $scope.selected );
+            return overlay.toDataURL( $scope.selected, _opts );
 
           },
 
