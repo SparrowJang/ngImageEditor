@@ -329,11 +329,16 @@ app.directive( 'ngImageEditor', ['$q', '$document', function( $q, $document ){
           * @param {String} type
           * @return String
           */
-          toDataURL:function( type ){
+          toDataURL:function( opts ){
+            var _opts = {imageType:"image/png", img:img, imgSize:imgSize};
 
-            var imageType = type ? type : "image/png";
+            if ( typeof opts === "string" ) {
+              _opts["imageType"] = opts;
+            } else {
+              _opts = angular.extend(_opts, opts);
+            }
 
-            return overlay.toDataURL( imageType , $scope.selected );
+            return overlay.toDataURL( $scope.selected, _opts );
 
           },
 

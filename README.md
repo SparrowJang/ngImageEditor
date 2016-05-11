@@ -62,7 +62,7 @@ $scope.selected = {width:150,height:150,top:0,left:0};
 Get a image data of selected block.
 
 ```js
-$scope.imageEditor.toDataURL();
+$scope.imageEditor.toDataURL({useOriginalImg:true, imageType:"image/png"});
 ```
 
 ##Method
@@ -91,7 +91,9 @@ $scope.enabledResizeSelector = true;
 ###Selected
 >Set top、left、width and height for selector.
 
-###toDataURL
+###toDataURL(opts:Object)
+> opts.useOriginalImg
+> opts.imageType
 >output a base64 string
 
 ###aspectRatio
