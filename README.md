@@ -5,15 +5,15 @@ ngImageEditor
 
 This is a image editor for angular.It can cut image.
 
-##Dependency
+## Dependency
 
 * angularjs
 
-##Demo
+## Demo
 
 [demo](http://www.sparrowjang.com/ngImageEditor/public/index.html)
 
-##Install
+## Install
 
 ```
 bower install ngImageEditor
@@ -25,7 +25,7 @@ or
 npm install ng-image-editor
 ```
 
-##Support
+## Support
 
 * IE9+
 * chrome
@@ -39,7 +39,7 @@ You can add this header to your server to resolve cross domain.
 Access-Control-Allow-Origin: http://your.domain.com
 ```
 
-##Usage
+## Usage
 
 Set some attrs of element.
 
@@ -65,14 +65,14 @@ Get a image data of selected block.
 $scope.imageEditor.toDataURL({useOriginalImg:true, imageType:"image/png"});
 ```
 
-##Method
+## Method
 
-###refresh
+### refresh
 >Resize and render canvas
 
-##Parameter
+## Parameter
 
-###enabledResizeSelector(optonal:default false)
+### enabledResizeSelector(optonal:default false)
 >Set a resize selector to be enabled.
 
 Create a attribute to tag.
@@ -85,13 +85,13 @@ The enabled is true by set.
 $scope.enabledResizeSelector = true;
 ```
 
-###imgSrc
+### imgSrc
 >Set a editor image.
 
-###Selected
+### Selected
 >Set top、left、width and height for selector.
 
-###toDataURL(opts:Object)
+### toDataURL(opts:Object)
 
 > opts.useOriginalImg
 
@@ -99,7 +99,7 @@ $scope.enabledResizeSelector = true;
 
 >output a base64 string
 
-###aspectRatio
+### aspectRatio
 >Set the aspect ratio
 ```html
 aspect-ratio="16:9"
@@ -110,12 +110,12 @@ aspect-ratio="16:9"
 <div selected="selected" img-src="imgSrc" ng-image-editor="imageEditor" ng-init="imgSrc='/images/head.jpeg'; selected = {width:50,height:50,top:0,left:0};" aspect-ratio="2:2" > </div>
 ```
 
-##Event
+## Event
 
-###on-image-change( imgSize ) `Event`
+### on-image-change( imgSize ) `Event`
 >The image is loaded and rendered.
 
-##Run
+## Run
  
 Clone this project.
  
