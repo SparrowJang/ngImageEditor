@@ -23,5 +23,8 @@
     "grunt-contrib-concat": "^0.3.0"
   },
   "author": "sparrow.jang",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "angular": "^1.6.8"
+  }
 }

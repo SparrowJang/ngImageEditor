@@ -12,8 +12,8 @@
     "editor",
     "capture"
   ],
-  "dependencies":{
-    "angular": "~1.5.5"
+  "dependencies": {
+    "angular": "^1.6.8"
   },
   "license": "MIT",
   "ignore": [
